@@ -1,0 +1,25 @@
+{
+    "name": "Unity.2D.Entities.Authoring",
+    "references": [
+      "Unity.Entities",
+      "Unity.Entities.Hybrid",
+      "Unity.Mathematics",
+      "Unity.Mathematics.Extensions",
+      "Unity.2D.Entities",
+      "Unity.2D.Hybrid",
+      "Unity.InternalAPIEditorBridge.010",
+      "Unity.Tiny.Core",
+      "Unity.Tiny.Rendering",
+      "Unity.Build",
+      "Unity.Entities.Runtime.Build"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": []
+}

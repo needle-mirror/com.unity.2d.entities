@@ -1,0 +1,24 @@
+{
+    "name": "Unity.2D.Entities.Physics.Editor.Tests",
+    "references": [
+        "Unity.Burst",
+        "Unity.Transforms",
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.Mathematics",
+        "Unity.Mathematics.Extensions",
+        "Unity.Collections",
+        "Unity.Tiny.Core",
+        "Unity.2D.Entities",
+        "Unity.2D.Entities.Physics",
+        "Unity.2D.Entities.Physics.Authoring"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true
+}

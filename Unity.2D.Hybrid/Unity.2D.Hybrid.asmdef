@@ -1,0 +1,24 @@
+{
+    "name": "Unity.2D.Hybrid",
+    "references": [
+      "Unity.Entities",
+      "Unity.Entities.Hybrid",
+      "Unity.Mathematics",
+      "Unity.Mathematics.Extensions",
+      "Unity.Collections",
+      "Unity.Transforms",
+      "Unity.2D.Entities",
+      "Unity.2D.Entities.Rendering",
+      "Unity.Tiny.Core",
+      "Unity.Tiny.Rendering"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": []
+}
