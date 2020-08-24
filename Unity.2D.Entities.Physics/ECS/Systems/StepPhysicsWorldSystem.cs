@@ -4,7 +4,7 @@ using Unity.Jobs;
 namespace Unity.U2D.Entities.Physics
 {
     [UpdateAfter(typeof(PhysicsWorldSystem)), UpdateBefore(typeof(ExportPhysicsWorldSystem))]
-    public class StepPhysicsWorldSystem : JobComponentSystem
+    public class StepPhysicsWorldSystem : SystemBase
     {
         public JobHandle FinalJobHandle { get; private set; }
 
@@ -21,13 +21,12 @@ namespace Unity.U2D.Entities.Physics
         {
         }
 
-        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        protected override void OnUpdate()
         {
-            var handle = JobHandle.CombineDependencies(m_PhysicsWorldSystem.FinalJobHandle, inputDeps);
+            var handle = JobHandle.CombineDependencies(m_PhysicsWorldSystem.FinalJobHandle, Dependency);
 
             // Simulate.
-            FinalJobHandle = ScheduleSimulate(ref m_PhysicsWorldSystem.PhysicsWorld, m_PhysicsWorldSystem.Callbacks, handle);
-            return FinalJobHandle;
+            Dependency = FinalJobHandle = ScheduleSimulate(ref m_PhysicsWorldSystem.PhysicsWorld, m_PhysicsWorldSystem.Callbacks, handle);
         }
 
         private JobHandle ScheduleSimulate(ref PhysicsWorld physicsWorld, PhysicsCallbacks callbacks, JobHandle inputDeps)

@@ -137,7 +137,7 @@ namespace Unity.U2D.Entities.Physics
                 )
             {
                 if (simplex.Count >= 3)
-                    throw new InvalidOperationException("ColliderCast Simplex must have less than 3 vertex.");
+                    SafetyChecks.ThrowInvalidOperationException("ColliderCast Simplex must have less than 3 vertex.");
 
 		        // Support in direction -supportV (Target - Source)
                 indexTarget = proxyTarget.GetSupport(-v);
@@ -191,7 +191,8 @@ namespace Unity.U2D.Entities.Physics
                         break;
 
                     default:
-                        throw new InvalidOperationException("Simplex has invalid count.");
+                        SafetyChecks.ThrowInvalidOperationException("Simplex has invalid count.");
+                        return default;
                 }
 
                 // If we have 3 points, then the origin is in the corresponding triangle.
@@ -245,7 +246,9 @@ namespace Unity.U2D.Entities.Physics
 
                 case ColliderType.Compound:
                 default:
-                    throw new NotImplementedException();
+                    SafetyChecks.ThrowNotImplementedException();
+                    hit = default;
+                    return default;
             }
 
             return CastCollider(input.Ray, ref input.Rotation, ref proxySource, ref proxyTarget, out hit);
@@ -286,7 +289,8 @@ namespace Unity.U2D.Entities.Physics
                     }
 
                 default:
-                    throw new NotImplementedException();
+                    SafetyChecks.ThrowNotImplementedException();
+                    return default;
             }
 
             // Ensure we scale the hit fraction back to its original scale.

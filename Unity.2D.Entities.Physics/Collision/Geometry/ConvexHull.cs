@@ -63,11 +63,8 @@ namespace Unity.U2D.Entities.Physics
                 {
                     get
                     {
-#if ENABLE_UNITY_COLLECTIONS_CHECKS
-                        if ((uint)index >= (uint)Length)
-                            throw new IndexOutOfRangeException(string.Format("Index {0} is out of range Length {1}", index, Length));
-#endif
-                        return ref UnsafeUtilityEx.ArrayElementAsRef<float2>((byte*)m_OffsetPtr + *m_OffsetPtr, index);
+                        SafetyChecks.CheckIndexAndThrow(index, Length);                    
+                        return ref UnsafeUtility.ArrayElementAsRef<float2>((byte*)m_OffsetPtr + *m_OffsetPtr, index);
                     }
                 }
 
@@ -81,7 +78,7 @@ namespace Unity.U2D.Entities.Physics
                     private readonly int m_Length;
                     private int m_Index;
 
-                    public float2 Current => UnsafeUtilityEx.ArrayElementAsRef<float2>((byte*)m_OffsetPtr + *m_OffsetPtr, m_Index);
+                    public float2 Current => UnsafeUtility.ArrayElementAsRef<float2>((byte*)m_OffsetPtr + *m_OffsetPtr, m_Index);
 
                     public Enumerator(int* offsetPtr, int length)
                     {
@@ -126,7 +123,7 @@ namespace Unity.U2D.Entities.Physics
 
         public unsafe void SetAndGiftWrap(NativeSlice<float2> points)
         {
-            PhysicsAssert.IsTrue(Length == points.Length);
+            SafetyChecks.IsTrue(Length == points.Length);
 
             // Find rightmost point.
             var maxX = points[0].x;
@@ -148,7 +145,7 @@ namespace Unity.U2D.Entities.Physics
             var ih = maxIndex;
             while (true)
             {
-                PhysicsAssert.IsTrue(m < Length);
+                SafetyChecks.IsTrue(m < Length);
                 hullIndices[m] = ih;
 
                 var ie = 0;
@@ -197,7 +194,7 @@ namespace Unity.U2D.Entities.Physics
                 var i1 = i;
                 var i2 = i + 1 < Length ? i + 1 : 0;
                 var edge = vertices[i2] - vertices[i1];
-                PhysicsAssert.IsTrue(math.lengthsq(edge) > float.Epsilon);
+                SafetyChecks.IsTrue(math.lengthsq(edge) > float.Epsilon);
                 normals[i] = math.normalize(cross(edge, 1.0f));
             }
         }
@@ -225,7 +222,7 @@ namespace Unity.U2D.Entities.Physics
         {
             var vertexCount = Length;
 
-            PhysicsAssert.IsTrue(vertexCount >=3);
+            SafetyChecks.IsTrue(vertexCount >=3);
 
             var area = 0f;
             var localCenterOfMass = float2.zero;
@@ -261,7 +258,7 @@ namespace Unity.U2D.Entities.Physics
             }
 
             area = math.abs(area);
-            PhysicsAssert.IsTrue(area > float.Epsilon);
+            SafetyChecks.IsTrue(area > float.Epsilon);
             localCenterOfMass *= math.rcp(area);
             localCenterOfMass += referencePoint;
 

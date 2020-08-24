@@ -211,7 +211,7 @@ namespace Unity.U2D.Entities.Physics
         public static unsafe BlobAssetReference<Collider> Create(NativeArray<ColliderBlobInstance> children, uint userData = 0)
         {
             if (children.Length == 0)
-                throw new ArgumentException("Cannot create a PhysicsCompoundCollider with no children.");
+                SafetyChecks.ThrowArgumentException("Cannot create a PhysicsCompoundCollider with no children.");
 
             // Get the total required memory size for the compound plus all its children,
             // and the combined filter of all children
@@ -280,7 +280,7 @@ namespace Unity.U2D.Entities.Physics
             int usedSize = (int)(end - (byte*)compoundCollider);
 
             if (usedSize > totalSize)
-                throw new InvalidOperationException("PhysicsCompoundCollider exceeded its allocated size.");
+                SafetyChecks.ThrowInvalidOperationException("PhysicsCompoundCollider exceeded its allocated size.");
 
             compoundCollider->MemorySize = usedSize;
             var blob = BlobAssetReference<Collider>.Create(compoundCollider, usedSize);

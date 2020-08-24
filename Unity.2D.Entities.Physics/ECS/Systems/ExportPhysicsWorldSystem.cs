@@ -9,7 +9,7 @@ using static Unity.U2D.Entities.Physics.PhysicsMath;
 namespace Unity.U2D.Entities.Physics
 {
     [UpdateAfter(typeof(StepPhysicsWorldSystem)), UpdateBefore(typeof(EndFramePhysicsSystem)), UpdateBefore(typeof(TransformSystemGroup))]
-    public class ExportPhysicsWorldSystem : JobComponentSystem
+    public class ExportPhysicsWorldSystem : SystemBase
     {
         public JobHandle FinalJobHandle { get; private set; }
 
@@ -24,15 +24,15 @@ namespace Unity.U2D.Entities.Physics
             m_StepPhysicsWorldSystem = World.GetOrCreateSystem<StepPhysicsWorldSystem>();
         }
 
-        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        protected override void OnUpdate()
         {
-            var handle = JobHandle.CombineDependencies(inputDeps, m_StepPhysicsWorldSystem.FinalJobHandle);
+            var handle = JobHandle.CombineDependencies(m_StepPhysicsWorldSystem.FinalJobHandle, Dependency);
 
             ref PhysicsWorld world = ref m_PhysicsWorldSystem.PhysicsWorld;
 
-            var translationType = GetArchetypeChunkComponentType<Translation>();
-            var rotationType = GetArchetypeChunkComponentType<Rotation>();
-            var velocityType = GetArchetypeChunkComponentType<PhysicsVelocity>();
+            var translationType = GetComponentTypeHandle<Translation>();
+            var rotationType = GetComponentTypeHandle<Rotation>();
+            var velocityType = GetComponentTypeHandle<PhysicsVelocity>();
 
             handle = new ExportDynamicBodiesJob
             {
@@ -46,8 +46,7 @@ namespace Unity.U2D.Entities.Physics
             }.Schedule(m_PhysicsWorldSystem.DynamicEntityGroup, handle);
             
             // Schedule phase callback.
-            FinalJobHandle = m_PhysicsWorldSystem.Callbacks.ScheduleCallbacksForPhase(PhysicsCallbacks.Phase.PostExport, ref m_PhysicsWorldSystem.PhysicsWorld, handle);
-            return FinalJobHandle;
+            Dependency = FinalJobHandle = m_PhysicsWorldSystem.Callbacks.ScheduleCallbacksForPhase(PhysicsCallbacks.Phase.PostExport, ref m_PhysicsWorldSystem.PhysicsWorld, handle);
         }
 
         [BurstCompile]
@@ -56,9 +55,9 @@ namespace Unity.U2D.Entities.Physics
             [ReadOnly] public NativeSlice<PhysicsBody.MotionData> BodyMotionData;
             [ReadOnly] public NativeSlice<PhysicsBody.MotionVelocity> BodyMotionVelocity;
 
-            public ArchetypeChunkComponentType<Translation> TranslationType;
-            public ArchetypeChunkComponentType<Rotation> RotationType;
-            public ArchetypeChunkComponentType<PhysicsVelocity> VelocityType;
+            public ComponentTypeHandle<Translation> TranslationType;
+            public ComponentTypeHandle<Rotation> RotationType;
+            public ComponentTypeHandle<PhysicsVelocity> VelocityType;
 
             public void Execute(ArchetypeChunk chunk, int chunkIndex, int firstEntityIndex)
             {

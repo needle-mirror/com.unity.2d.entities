@@ -42,16 +42,16 @@ namespace Unity.U2D.Entities.Physics
         internal void Validate()
         {
             if (m_Vertices.Length < 3 || m_Vertices.Length > PhysicsPolygonCollider.Constants.MaxVertexCount)
-                throw new ArgumentException("Invalid number of vertices specified.", "Vertices (length)");
+                SafetyChecks.ThrowArgumentException("Invalid number of vertices specified.", "Vertices (length)");
 
             for(var i = 0; i < m_Vertices.Length; ++i)
             {
                 if (math.any(!math.isfinite(m_Vertices[i])))
-                    throw new ArgumentException("Cannot specify Infinite/NaN.", "Vertices");
+                    SafetyChecks.ThrowArgumentException("Cannot specify Infinite/NaN.", "Vertices");
             }
 
             if (!math.isfinite(m_BevelRadius) || m_BevelRadius < 0.0f)
-                throw new ArgumentException("Cannot specify less than 0 or Infinite/NaN.", "BevelRadius");
+                SafetyChecks.ThrowArgumentException("Cannot specify less than 0 or Infinite/NaN.", "BevelRadius");
         }
     }
 

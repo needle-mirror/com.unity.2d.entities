@@ -8,18 +8,18 @@ namespace Unity.U2D.Entities.Physics.Authoring
         public const float MinRangeClamp = 0.0001f;
         public const float MaxRangeClamp = 1000000.0f;
 
-        // Create an equivalent of a legacy 2D physics material.
+        // Create an equivalent of a classic 2D physics material.
         public static PhysicsMaterial GetPhysicsMaterialFromCollider(Collider2D collider)
         {
             // Fetch the collider material.
-            var legacyMaterial = collider.sharedMaterial;
-            if (legacyMaterial == null)
+            var classicMaterial = collider.sharedMaterial;
+            if (classicMaterial == null)
             {
                 // Fetch the attached body material.
                 var attachedRigidbody = collider.attachedRigidbody;
                 if (attachedRigidbody != null)
                 {
-                    legacyMaterial = attachedRigidbody.sharedMaterial;
+                    classicMaterial = attachedRigidbody.sharedMaterial;
                 }
             }
 
@@ -29,17 +29,17 @@ namespace Unity.U2D.Entities.Physics.Authoring
             if (collider.isTrigger)
                 material.Flags |= PhysicsMaterial.MaterialFlags.IsTrigger;      
 
-            // Convert any legacy material.
-            if (legacyMaterial != null)
+            // Convert any classic material.
+            if (classicMaterial != null)
             {
-                material.Friction = legacyMaterial.friction;
-                material.Restitution = legacyMaterial.bounciness;
+                material.Friction = classicMaterial.friction;
+                material.Restitution = classicMaterial.bounciness;
             }
 
             return material;
         }
 
-        // Create an equivalent of a legacy 2D physics collision layer mask.
+        // Create an equivalent of a classic 2D physics collision layer mask.
         public static CollisionFilter GetCollisionFilterFromCollider(Collider2D collider)
         {
             var layer = collider.gameObject.layer;

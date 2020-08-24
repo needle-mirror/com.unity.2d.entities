@@ -160,7 +160,8 @@ namespace Unity.U2D.Entities.Physics
                     }
 
                 default:
-                    throw new NotImplementedException();
+                    SafetyChecks.ThrowNotImplementedException();
+                    return default;
             }
 
             if (hadHit)
@@ -260,10 +261,12 @@ namespace Unity.U2D.Entities.Physics
                     }
 
                 case ColliderType.Compound:
-                    throw new NotImplementedException();
+                    SafetyChecks.ThrowNotImplementedException();
+                    return default;
 
                 default:
-                    throw new NotImplementedException();
+                    SafetyChecks.ThrowNotImplementedException();
+                    return default;
             }
         }
 
@@ -308,7 +311,8 @@ namespace Unity.U2D.Entities.Physics
                                 }
 
                             default:
-                                throw new NotImplementedException();
+                                SafetyChecks.ThrowNotImplementedException();
+                                return default;                                
                         }
 
                         break;
@@ -317,11 +321,13 @@ namespace Unity.U2D.Entities.Physics
                 case CollisionType.Composite:
                     {
                         // Compound overlaps not supported.
-                        throw new NotImplementedException();
+                        SafetyChecks.ThrowNotImplementedException();
+                        return default;
                     }
 
                 default:
-                    throw new NotImplementedException();
+                    SafetyChecks.ThrowNotImplementedException();
+                    return default;
             }
 
             if (hadHit)
@@ -408,7 +414,8 @@ namespace Unity.U2D.Entities.Physics
                     AabbCompound(input, (PhysicsCompoundCollider*)collider, ref collector);
                     break;
                 default:
-                    throw new NotImplementedException();
+                    SafetyChecks.ThrowNotImplementedException();
+                    break;
             }
         }
 

@@ -12,7 +12,7 @@ namespace Unity.U2D.Entities.Physics.Authoring
 {
     [UpdateAfter(typeof(PhysicsDebugStreamSystem))]
     [UpdateBefore(typeof(PhysicsWorldSystem))]
-    public class DisplayColliderSystem : JobComponentSystem
+    public class DisplayColliderSystem : SystemBase
     {
         PhysicsWorldSystem m_PhysicsWorldSystem;
         PhysicsDebugStreamSystem m_DebugStreamSystem;
@@ -25,10 +25,10 @@ namespace Unity.U2D.Entities.Physics.Authoring
             RequireSingletonForUpdate<PhysicsDebugDisplay>();
         }
 
-        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        protected override void OnUpdate()
         {
             if (m_PhysicsWorldSystem.PhysicsWorld.BodyCount == 0)
-                return inputDeps;
+                return;
 
             var debugDisplay = GetSingleton<PhysicsDebugDisplay>();
 
@@ -61,8 +61,6 @@ namespace Unity.U2D.Entities.Physics.Authoring
 
                 m_PhysicsWorldSystem.ScheduleCallback(PhysicsCallbacks.Phase.PreStepSimulation, callback);
             }
-
-            return inputDeps;
         }
 
         // Job to iterate over all the bodies in a scene, for any

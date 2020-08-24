@@ -155,7 +155,8 @@ namespace Unity.U2D.Entities.Physics
 
                         case ColliderType.Invalid:
                         default:
-                            throw new InvalidOperationException("Unknown or invalid physics collider.");
+                            SafetyChecks.ThrowInvalidOperationException("Unknown or invalid physics collider.");
+                            return default;
                     }
                 }
             }
@@ -199,7 +200,8 @@ namespace Unity.U2D.Entities.Physics
 
                         case ColliderType.Invalid:
                         default:
-                            throw new InvalidOperationException("Unknown or invalid physics collider.");
+                            SafetyChecks.ThrowInvalidOperationException("Unknown or invalid physics collider.");
+                            return default;
                     }
                 }
             }
@@ -311,7 +313,8 @@ namespace Unity.U2D.Entities.Physics
 
                     case ColliderType.Invalid:
                     default:
-                        throw new InvalidOperationException("Unknown or invalid physics collider.");
+                        SafetyChecks.ThrowInvalidOperationException("Unknown or invalid physics collider.");
+                        return default;
                 }
             }
         }
@@ -616,7 +619,7 @@ namespace Unity.U2D.Entities.Physics
                 fixed (ChildCollider* self = &this)
                 {
                     // Accessing uninitialized Collider.
-                    PhysicsAssert.IsTrue(m_Collider != null);
+                    SafetyChecks.IsTrue(m_Collider != null);
                     return (Collider*)self->m_Collider;
                 }
             }
@@ -655,7 +658,7 @@ namespace Unity.U2D.Entities.Physics
         public static ref T GetColliderRef<T>(this Unity.Entities.BlobAssetReference<Collider> assetReference)
             where T : struct
         {
-            return ref UnsafeUtilityEx.AsRef<T>(assetReference.GetUnsafePtr());
+            return ref UnsafeUtility.AsRef<T>(assetReference.GetUnsafePtr());
         }
     }
 }

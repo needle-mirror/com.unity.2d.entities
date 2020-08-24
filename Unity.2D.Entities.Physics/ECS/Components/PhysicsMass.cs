@@ -20,22 +20,26 @@ namespace Unity.U2D.Entities.Physics
         // Create a Dynamic body with the specified mass.
         public static PhysicsMass CreateDynamic(MassProperties massProperties, float mass)
         {
-            if (mass <= 0f || !math.isfinite(mass) )
-                throw new System.ArgumentException("Cannot specify less than zero or Infinite/NaN.", "mass");
+            if (!(mass <= 0f) && math.isfinite(mass))
+                return new PhysicsMass
+                {
+                    InverseMass = math.rcp(mass),
+                    InverseInertia = massProperties.MassDistribution.InverseInertia,
+                    LocalCenterOfMass = massProperties.MassDistribution.LocalCenterOfMass,
+                };
+            
+            SafetyChecks.ThrowArgumentException("Cannot specify less than zero or Infinite/NaN.", "mass");
+            return default;
 
-            return new PhysicsMass
-            {
-                InverseMass = math.rcp(mass),
-                InverseInertia = massProperties.MassDistribution.InverseInertia,
-                LocalCenterOfMass = massProperties.MassDistribution.LocalCenterOfMass,
-            };
         }
 
         // Create a Kinematic body.
         public static PhysicsMass CreateKinematic(MassProperties massProperties)
         {
-            if (math.any(!math.isfinite(massProperties.MassDistribution.LocalCenterOfMass)) )
-                throw new System.ArgumentException("Cannot specify less than zero or Infinite/NaN.", "localCenterOfMass");
+            if (math.any(!math.isfinite(massProperties.MassDistribution.LocalCenterOfMass)))
+            {
+                SafetyChecks.ThrowArgumentException("Cannot specify less than zero or Infinite/NaN.", "localCenterOfMass");
+            }
 
             return new PhysicsMass
             {

@@ -107,7 +107,7 @@ namespace Unity.U2D.Entities.Physics
 
         public bool AddHit(T hit)
         {
-            PhysicsAssert.IsTrue(hit.Fraction < MaxFraction);
+            SafetyChecks.IsTrue(hit.Fraction < MaxFraction);
             return true;
         }
 
@@ -135,7 +135,7 @@ namespace Unity.U2D.Entities.Physics
 
         public bool AddHit(T hit)
         {
-            PhysicsAssert.IsTrue(hit.Fraction <= MaxFraction);
+            SafetyChecks.IsTrue(hit.Fraction <= MaxFraction);
             MaxFraction = hit.Fraction;
             m_ClosestHit = hit;
             NumHits = 1;
@@ -164,7 +164,7 @@ namespace Unity.U2D.Entities.Physics
 
         public bool AddHit(T hit)
         {
-            PhysicsAssert.IsTrue(hit.Fraction < MaxFraction);
+            SafetyChecks.IsTrue(hit.Fraction < MaxFraction);
             AllHits.Add(hit);
             return true;
         }

@@ -10,7 +10,7 @@ using Unity.Transforms;
 namespace Unity.U2D.Entities.Physics
 {
     [UpdateBefore(typeof(StepPhysicsWorldSystem))]
-    public class PhysicsWorldSystem : JobComponentSystem
+    public class PhysicsWorldSystem : SystemBase
     {
         public PhysicsWorld PhysicsWorld;
 
@@ -80,7 +80,7 @@ namespace Unity.U2D.Entities.Physics
             if (physicsBodyIndex != PhysicsBody.Constants.InvalidBodyIndex)
             {
                 var physicsBody = PhysicsWorld.AllBodies[physicsBodyIndex];
-                PhysicsAssert.IsTrue(entity == physicsBody.Entity);
+                SafetyChecks.IsTrue(entity == physicsBody.Entity);
                 return physicsBody;
             }
 
@@ -131,7 +131,7 @@ namespace Unity.U2D.Entities.Physics
             m_EntityToPhysicsBody.Dispose();
         }
 
-        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        protected override void OnUpdate()
         {
             // Make sure last frame's physics jobs are complete
             m_EndFramePhysicsSystem.FinalJobHandle.Complete();
@@ -146,19 +146,19 @@ namespace Unity.U2D.Entities.Physics
             PhysicsWorld.TimeStep = Time.DeltaTime;
 
             // Schedule phase callback.
-            inputDeps = Callbacks.ScheduleCallbacksForPhase(PhysicsCallbacks.Phase.PreBuild, ref PhysicsWorld, inputDeps);
+            var inputDeps = Callbacks.ScheduleCallbacksForPhase(PhysicsCallbacks.Phase.PreBuild, ref PhysicsWorld, Dependency);
 
-            var entityType = GetArchetypeChunkEntityType();
+            var entityType = GetEntityTypeHandle();
 
-            var localToWorldType = GetArchetypeChunkComponentType<LocalToWorld>(true);
-            var parentType = GetArchetypeChunkComponentType<Parent>(true);
-            var translationType = GetArchetypeChunkComponentType<Translation>(true);
-            var rotationType = GetArchetypeChunkComponentType<Rotation>(true);
-            var physicsColliderType = GetArchetypeChunkComponentType<PhysicsColliderBlob>(true);
-            var physicsVelocityType = GetArchetypeChunkComponentType<PhysicsVelocity>(true);
-            var physicsMassType = GetArchetypeChunkComponentType<PhysicsMass>(true);
-            var physicsDampingType = GetArchetypeChunkComponentType<PhysicsDamping>(true);
-            var physicsGravityType = GetArchetypeChunkComponentType<PhysicsGravity>(true);
+            var localToWorldType = GetComponentTypeHandle<LocalToWorld>(true);
+            var parentType = GetComponentTypeHandle<Parent>(true);
+            var translationType = GetComponentTypeHandle<Translation>(true);
+            var rotationType = GetComponentTypeHandle<Rotation>(true);
+            var physicsColliderType = GetComponentTypeHandle<PhysicsColliderBlob>(true);
+            var physicsVelocityType = GetComponentTypeHandle<PhysicsVelocity>(true);
+            var physicsMassType = GetComponentTypeHandle<PhysicsMass>(true);
+            var physicsDampingType = GetComponentTypeHandle<PhysicsDamping>(true);
+            var physicsGravityType = GetComponentTypeHandle<PhysicsGravity>(true);
 
             var staticBodyCount = StaticEntityGroup.CalculateEntityCount();
             var dynamicBodyCount = DynamicEntityGroup.CalculateEntityCount();
@@ -304,7 +304,7 @@ namespace Unity.U2D.Entities.Physics
                 FinalJobHandle = haveStaticBodiesChanged.Dispose(handle);
             }
 
-            return JobHandle.CombineDependencies(FinalJobHandle, inputDeps);
+            Dependency = JobHandle.CombineDependencies(FinalJobHandle, inputDeps);
         }
 
         #region Jobs
@@ -312,8 +312,8 @@ namespace Unity.U2D.Entities.Physics
         [BurstCompile]
         private struct CheckStaticBodyChangesJob : IJobChunk
         {
-            [ReadOnly] public ArchetypeChunkComponentType<LocalToWorld> LocalToWorldType;
-            [ReadOnly] public ArchetypeChunkComponentType<PhysicsColliderBlob> PhysicsColliderType;
+            [ReadOnly] public ComponentTypeHandle<LocalToWorld> LocalToWorldType;
+            [ReadOnly] public ComponentTypeHandle<PhysicsColliderBlob> PhysicsColliderType;
 
             public NativeArray<int> ChunkHasChangesOutput;
             public uint m_LastSystemVersion;
@@ -367,12 +367,12 @@ namespace Unity.U2D.Entities.Physics
         [BurstCompile]
         private struct CreatePhysicsBodiesJob : IJobChunk
         {
-            [ReadOnly] public ArchetypeChunkEntityType EntityType;
-            [ReadOnly] public ArchetypeChunkComponentType<LocalToWorld> LocalToWorldType;
-            [ReadOnly] public ArchetypeChunkComponentType<Parent> ParentType;
-            [ReadOnly] public ArchetypeChunkComponentType<Translation> TranslationType;
-            [ReadOnly] public ArchetypeChunkComponentType<Rotation> RotationType;
-            [ReadOnly] public ArchetypeChunkComponentType<PhysicsColliderBlob> ColliderType;
+            [ReadOnly] public EntityTypeHandle EntityType;
+            [ReadOnly] public ComponentTypeHandle<LocalToWorld> LocalToWorldType;
+            [ReadOnly] public ComponentTypeHandle<Parent> ParentType;
+            [ReadOnly] public ComponentTypeHandle<Translation> TranslationType;
+            [ReadOnly] public ComponentTypeHandle<Rotation> RotationType;
+            [ReadOnly] public ComponentTypeHandle<PhysicsColliderBlob> ColliderType;
 
             [NativeDisableContainerSafetyRestriction]
             public NativeSlice<PhysicsBody> PhysicsBodies;
@@ -440,13 +440,13 @@ namespace Unity.U2D.Entities.Physics
         [BurstCompile]
         private unsafe struct CreatePhysicsBodyMotionsJob : IJobChunk
         {
-            [ReadOnly] public ArchetypeChunkComponentType<Translation> TranslationType;
-            [ReadOnly] public ArchetypeChunkComponentType<Rotation> RotationType;
-            [ReadOnly] public ArchetypeChunkComponentType<PhysicsColliderBlob> ColliderType;
-            [ReadOnly] public ArchetypeChunkComponentType<PhysicsVelocity> PhysicsVelocityType;
-            [ReadOnly] public ArchetypeChunkComponentType<PhysicsMass> PhysicsMassType;
-            [ReadOnly] public ArchetypeChunkComponentType<PhysicsDamping> PhysicsDampingType;
-            [ReadOnly] public ArchetypeChunkComponentType<PhysicsGravity> PhysicsGravityType;
+            [ReadOnly] public ComponentTypeHandle<Translation> TranslationType;
+            [ReadOnly] public ComponentTypeHandle<Rotation> RotationType;
+            [ReadOnly] public ComponentTypeHandle<PhysicsColliderBlob> ColliderType;
+            [ReadOnly] public ComponentTypeHandle<PhysicsVelocity> PhysicsVelocityType;
+            [ReadOnly] public ComponentTypeHandle<PhysicsMass> PhysicsMassType;
+            [ReadOnly] public ComponentTypeHandle<PhysicsDamping> PhysicsDampingType;
+            [ReadOnly] public ComponentTypeHandle<PhysicsGravity> PhysicsGravityType;
 
             [NativeDisableParallelForRestriction] public NativeSlice<PhysicsBody.MotionData> BodyMotionData;
             [NativeDisableParallelForRestriction]public NativeSlice<PhysicsBody.MotionVelocity> BodyMotionVelocity;

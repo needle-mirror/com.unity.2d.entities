@@ -42,16 +42,16 @@ namespace Unity.U2D.Entities.Physics
         internal void Validate()
         {
             if (math.any(!math.isfinite(m_Size)) || math.any(m_Size <= 0.0f))
-                throw new ArgumentException("Cannot specify less than zero or Infinite/NaN.", "Size");
+                SafetyChecks.ThrowArgumentException("Cannot specify less than zero or Infinite/NaN.", "Size");
 
             if (math.any(!math.isfinite(m_Center)))
-                throw new ArgumentException("Cannot specify Infinite/NaN.", "Center");
+                SafetyChecks.ThrowArgumentException("Cannot specify Infinite/NaN.", "Center");
 
             if (!math.isfinite(Angle))
-                throw new ArgumentException("Cannot specify Infinite/NaN.", "Angle");
+                SafetyChecks.ThrowArgumentException("Cannot specify Infinite/NaN.", "Angle");
 
             if (!math.isfinite(m_BevelRadius) || m_BevelRadius < 0.0f)
-                throw new ArgumentException("Cannot specify less than 0 or Infinite/NaN.", "BevelRadius");
+                SafetyChecks.ThrowArgumentException("Cannot specify less than 0 or Infinite/NaN.", "BevelRadius");
         }
     }
 

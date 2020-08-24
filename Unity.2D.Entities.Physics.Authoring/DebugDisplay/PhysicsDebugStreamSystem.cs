@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Unity.U2D.Entities.Physics.Authoring
 {
     [UpdateBefore(typeof(PhysicsWorldSystem))]
-    public class PhysicsDebugStreamSystem : ComponentSystem
+    public class PhysicsDebugStreamSystem : SystemBase
     {
         readonly List<NativeStream> m_DebugStreams = new List<NativeStream>();
         PhysicsDrawComponent m_PhysicsDrawComponent;
@@ -107,7 +107,7 @@ namespace Unity.U2D.Entities.Physics.Authoring
 
             public unsafe void Polygon(ConvexHull.ConvexArray.Accessor vertices, int vertexCount, PhysicsTransform physicsTransform, Color color)
             {
-                PhysicsAssert.IsTrue(vertexCount <= PhysicsPolygonCollider.Constants.MaxVertexCount);
+                SafetyChecks.IsTrue(vertexCount <= PhysicsPolygonCollider.Constants.MaxVertexCount);
 
                 Writer.Write(Type.Polygon);
 
@@ -333,8 +333,9 @@ namespace Unity.U2D.Entities.Physics.Authoring
 
                 GUIStyle style = new GUIStyle();
                 style.normal.textColor = Color;
-    
+#if UNITY_EDITOR    
                 Handles.Label(new float3(Position, 0f), new string(stringBuf), style);
+#endif // UNITY_EDITOR                
             }
         }
 

@@ -116,7 +116,8 @@ namespace Unity.U2D.Entities.Physics
                         break;
 
                     default:
-                        throw new InvalidOperationException("Simplex has invalid count.");
+                        SafetyChecks.ThrowInvalidOperationException("Simplex has invalid count.");
+                        return default;
                 }
 
                 // If we have 3 points, then the origin is in the corresponding triangle.
@@ -236,7 +237,8 @@ namespace Unity.U2D.Entities.Physics
                     return PointDistanceCompound(input, (PhysicsCompoundCollider*)collider, ref collector);
 
                 default:
-                    throw new NotImplementedException();
+                    SafetyChecks.ThrowNotImplementedException();
+                    return default;
             }
 
             var hit = ColliderDistance(PhysicsTransform.Identity, ref proxySource, ref proxyTarget);
@@ -324,10 +326,9 @@ namespace Unity.U2D.Entities.Physics
                     }
 
                 case ColliderType.Compound:
-                    throw new NotImplementedException();
-
                 default:
-                    throw new NotImplementedException();
+                    SafetyChecks.ThrowNotImplementedException();
+                    return default;
             }
 
             return ColliderDistance(input.Transform, ref proxySource, ref proxyTarget);
@@ -364,7 +365,8 @@ namespace Unity.U2D.Entities.Physics
                     }
 
                 default:
-                    throw new NotImplementedException();
+                    SafetyChecks.ThrowNotImplementedException();
+                    return default;
             }
 
             if (hit.Distance < collector.MaxFraction)
@@ -635,7 +637,8 @@ namespace Unity.U2D.Entities.Physics
                     }
 
                 default:
-                    throw new InvalidOperationException("Invalid simplex search direction.");
+                    SafetyChecks.ThrowInvalidOperationException("Invalid simplex search direction.");
+                    return default;
             }
         }
 
@@ -654,7 +657,8 @@ namespace Unity.U2D.Entities.Physics
 
                 case 0:
                 default:
-                    throw new InvalidOperationException("Invalid simplex search direction.");
+                    SafetyChecks.ThrowInvalidOperationException("Invalid simplex search direction.");
+                    return default;
             }
         }
 
@@ -679,7 +683,8 @@ namespace Unity.U2D.Entities.Physics
 
                 case 0:
                 default:
-                    throw new InvalidOperationException("Invalid Simplex count.");
+                    SafetyChecks.ThrowInvalidOperationException("Invalid Simplex count.");
+                    return;
             }
         }
 

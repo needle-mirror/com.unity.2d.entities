@@ -112,7 +112,7 @@ namespace Unity.U2D.Entities.Physics
         public unsafe bool CastCollider<T>(ColliderCastInput input, NativeSlice<PhysicsBody> rigidBodies, ref T collector)
             where T : struct, ICollector<ColliderCastHit>
         {
-            PhysicsAssert.IsTrue(input.Collider.IsCreated);
+            SafetyChecks.IsTrue(input.Collider.IsCreated);
 
             if (input.Collider.Value.Filter.IsEmpty)
                 return false;
@@ -150,7 +150,7 @@ namespace Unity.U2D.Entities.Physics
         public unsafe bool CalculateDistance<T>(ColliderDistanceInput input, NativeSlice<PhysicsBody> rigidBodies, ref T collector)
             where T : struct, ICollector<DistanceHit>
         {
-            PhysicsAssert.IsTrue(input.Collider.IsCreated);
+            SafetyChecks.IsTrue(input.Collider.IsCreated);
 
             if (input.Collider.Value.Filter.IsEmpty)
                 return false;
@@ -178,17 +178,17 @@ namespace Unity.U2D.Entities.Physics
 
             public unsafe void AddColliderKeys(ColliderKey* keys, int count)
             {
-                throw new NotSupportedException();
+                SafetyChecks.ThrowNotSupportedException();
             }
 
             public void PushCompositeCollider(ColliderKeyPath compositeKey)
             {
-                throw new NotSupportedException();
+                SafetyChecks.ThrowNotSupportedException();
             }
 
             public void PopCompositeCollider(uint numCompositeKeyBits)
             {
-                throw new NotSupportedException();
+                SafetyChecks.ThrowNotSupportedException();
             }
         }
 
@@ -407,7 +407,7 @@ namespace Unity.U2D.Entities.Physics
         /// </summary>
         public void BuildStaticTree(NativeSlice<PhysicsBody> staticBodies, float aabbMargin)
         {
-            PhysicsAssert.IsTrue(staticBodies.Length == m_StaticTree.BodyCount);
+            SafetyChecks.IsTrue(staticBodies.Length == m_StaticTree.BodyCount);
 
             if (staticBodies.Length == 0)
             {
@@ -437,7 +437,7 @@ namespace Unity.U2D.Entities.Physics
             NativeSlice<PhysicsBody.MotionData> motionDatas, NativeSlice<PhysicsBody.MotionVelocity> motionVelocities,
             float2 gravity, float timeStep, float aabbMargin)
         {
-            PhysicsAssert.IsTrue(dynamicBodies.Length == m_DynamicTree.BodyCount);
+            SafetyChecks.IsTrue(dynamicBodies.Length == m_DynamicTree.BodyCount);
 
             if (dynamicBodies.Length == 0)
             {
@@ -602,7 +602,7 @@ namespace Unity.U2D.Entities.Physics
             NativeArray<int> shouldDoWork,
             JobHandle inputDeps)
         {
-            PhysicsAssert.IsTrue(world.StaticBodyCount == m_StaticTree.BodyCount);
+            SafetyChecks.IsTrue(world.StaticBodyCount == m_StaticTree.BodyCount);
             
             if (world.StaticBodyCount == 0)
                 return inputDeps;
@@ -638,7 +638,7 @@ namespace Unity.U2D.Entities.Physics
 
         internal JobHandle ScheduleDynamicTreeBuildJobs(ref PhysicsWorld world, JobHandle inputDeps)
         {
-            PhysicsAssert.IsTrue(world.DynamicBodyCount == m_DynamicTree.BodyCount);
+            SafetyChecks.IsTrue(world.DynamicBodyCount == m_DynamicTree.BodyCount);
             if (world.DynamicBodyCount == 0)
             {
                 return inputDeps;

@@ -130,7 +130,7 @@ namespace Unity.U2D.Entities.Physics
             void Segregate(int axis, float pivot, Range range, int minItems, ref Range lRange, ref Range rRange)
             {
                 // Range length must be greater than 1.
-                PhysicsAssert.IsTrue(range.Length > 1);
+                SafetyChecks.IsTrue(range.Length > 1);
 
                 Aabb lDomain = Aabb.Empty;
                 Aabb rDomain = Aabb.Empty;
@@ -258,7 +258,7 @@ namespace Unity.U2D.Entities.Physics
                     CreateChildren(subRanges, numSubRanges, range.Root, ref freeNodeIndex, (Range*)UnsafeUtility.AddressOf(ref range), ref hasLeftOvers);
 
                     // Internal error.
-                    PhysicsAssert.IsTrue(hasLeftOvers <= 1);
+                    SafetyChecks.IsTrue(hasLeftOvers <= 1);
                 } while (hasLeftOvers > 0);
             }
 
@@ -457,7 +457,7 @@ namespace Unity.U2D.Entities.Physics
             Node* baseNode = m_Nodes;
             Node* currentNode = baseNode + nodeIndex;
 
-            PhysicsAssert.IsTrue(currentNode->IsInternal);
+            SafetyChecks.IsTrue(currentNode->IsInternal);
 
             CollisionFilter combinedFilter = new CollisionFilter();
             for (int j = 0; j < 4; j++)
@@ -517,7 +517,7 @@ namespace Unity.U2D.Entities.Physics
             Node* baseNode = m_Nodes;
             Node* currentNode = baseNode + nodeIndex;
 
-            PhysicsAssert.IsTrue(currentNode->IsInternal);
+            SafetyChecks.IsTrue(currentNode->IsInternal);
 
             for (int j = 0; j < 4; j++)
             {
@@ -715,7 +715,7 @@ namespace Unity.U2D.Entities.Physics
 
             public void Execute(int index)
             {
-                PhysicsAssert.IsTrue(BranchNodeOffsets[index] >= 0);
+                SafetyChecks.IsTrue(BranchNodeOffsets[index] >= 0);
                 var bvh = new BoundingVolumeHierarchy(Nodes, NodeFilters);
                 int lastNode = bvh.BuildBranch(Points, Aabbs, Ranges[index], BranchNodeOffsets[index]);
 
@@ -785,7 +785,8 @@ namespace Unity.U2D.Entities.Physics
 
                 if (validData != validAabb)
                 {
-                    throw new Exception("Invalid node should have empty AABB.");
+                    SafetyChecks.ThrowInvalidOperationException("Invalid node should have empty AABB.");
+                    return;
                 }
 
                 if (validData)
@@ -794,7 +795,8 @@ namespace Unity.U2D.Entities.Physics
                     {
                         if (!parentAabb.Contains(aabb))
                         {
-                            throw new Exception("Parent AABB do not contains child AABB");
+                            SafetyChecks.ThrowInvalidOperationException("Parent AABB do not contains child AABB");
+                            return;
                         }
                     }
 

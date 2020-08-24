@@ -9,7 +9,7 @@ namespace Unity.U2D.Entities.Physics.Authoring
 {
     [UpdateAfter(typeof(PhysicsDebugStreamSystem))]
     [UpdateBefore(typeof(PhysicsWorldSystem))]
-    internal class DisplayColliderAabbsSystem : JobComponentSystem
+    internal class DisplayColliderAabbsSystem : SystemBase
     {
         PhysicsWorldSystem m_PhysicsWorldSystem;
         PhysicsDebugStreamSystem m_DebugStreamSystem;
@@ -22,14 +22,14 @@ namespace Unity.U2D.Entities.Physics.Authoring
             RequireSingletonForUpdate<PhysicsDebugDisplay>();
         }
 
-        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        protected override void OnUpdate()
         {
             if (m_PhysicsWorldSystem.PhysicsWorld.BodyCount == 0)
-                return inputDeps;
+                return;
 
             var debugDisplay = GetSingleton<PhysicsDebugDisplay>();
             if (debugDisplay.DrawColliderAabbs == 0)
-                return inputDeps;
+                return;
 
             JobHandle callback(ref PhysicsWorld world, JobHandle deps)
             {
@@ -42,8 +42,6 @@ namespace Unity.U2D.Entities.Physics.Authoring
             }
 
             m_PhysicsWorldSystem.ScheduleCallback(PhysicsCallbacks.Phase.PreStepSimulation, callback);
-
-            return inputDeps;
         }
     }
 

@@ -79,7 +79,8 @@ namespace Unity.U2D.Entities.Physics
                     continue;
                 }
 
-                throw new System.ArgumentException("Collision mask layers must be in the range 0-31.");
+                SafetyChecks.ThrowArgumentException("Collision mask layers must be in the range 0-31.");
+                return default;
             }
 
             return mask;

@@ -60,7 +60,7 @@ namespace Unity.U2D.Entities.Physics.Authoring
             if (colliderCount == 1)
             {
                 var foundColliderBlob = RigidbodyToColliderMapping.TryGetFirstValue(rigidbodyEntity, out BlobAssetReference<Collider> colliderBlob, out NativeMultiHashMapIterator<Entity> ignore);
-                PhysicsAssert.IsTrue(foundColliderBlob);
+                SafetyChecks.IsTrue(foundColliderBlob);
 
                 // Add the single collider to the rigidbody entity.
                 DstEntityManager.AddComponentData(rigidbodyEntity, new PhysicsColliderBlob { Collider = colliderBlob });

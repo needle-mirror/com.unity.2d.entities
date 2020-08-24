@@ -7,7 +7,7 @@ namespace Unity.U2D.Entities.Physics
     [UpdateAfter(typeof(PhysicsWorldSystem))]
     [UpdateAfter(typeof(StepPhysicsWorldSystem))]
     [UpdateAfter(typeof(ExportPhysicsWorldSystem))]
-    public class EndFramePhysicsSystem : JobComponentSystem
+    public class EndFramePhysicsSystem : SystemBase
     {
         public NativeList<JobHandle> HandlesToWaitFor;
 
@@ -34,13 +34,11 @@ namespace Unity.U2D.Entities.Physics
             HandlesToWaitFor.Dispose();
         }
 
-        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        protected override void OnUpdate()
         {
-            FinalJobHandle = JobHandle.CombineDependencies(CombineDependencies(), inputDeps);
-
             m_PhysicsWorldSystem.Callbacks.Clear();
-
-            return FinalJobHandle;
+            
+            Dependency = FinalJobHandle = JobHandle.CombineDependencies(CombineDependencies(), Dependency);
         }
 
         private JobHandle CombineDependencies()

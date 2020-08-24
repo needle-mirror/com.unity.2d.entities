@@ -570,7 +570,7 @@ namespace Unity.U2D.Entities.Physics
             where TProcessor : struct, IPointDistanceLeafProcessor
             where TCollector : struct, ICollector<DistanceHit>
         {
-            PhysicsAssert.IsTrue(collector.MaxFraction <= input.MaxDistance);
+            SafetyChecks.IsTrue(collector.MaxFraction <= input.MaxDistance);
 
             bool hadHit = false;
 
@@ -632,7 +632,7 @@ namespace Unity.U2D.Entities.Physics
             where TProcessor : struct, IColliderDistanceLeafProcessor
             where TCollector : struct, ICollector<DistanceHit>
         {
-            PhysicsAssert.IsTrue(collector.MaxFraction <= input.MaxDistance);
+            SafetyChecks.IsTrue(collector.MaxFraction <= input.MaxDistance);
 
             bool hadHit = false;
 

@@ -1,24 +1,18 @@
 {
   "displayName": "2D Entities",
   "name": "com.unity.2d.entities",
-  "unity": "2019.3",
-  "version": "0.22.0-preview.8",
+  "unity": "2020.1",
+  "version": "0.29.0-preview.3",
   "dependencies": {
-    "com.unity.tiny": "0.22.0-preview.7",
-    "com.unity.tiny.desktop": "0.22.0-preview.7",
-    "com.unity.tiny.rendering": "0.22.0-preview.7",
-    "com.unity.tiny.web": "0.22.0-preview.7",
-    "com.unity.dots.runtime": "0.22.0-preview.5",
-    "com.unity.platforms": "0.1.8-preview.1",
-    "com.unity.collections": "0.5.1-preview.11",
-    "com.unity.entities": "0.5.1-preview.11",
-    "com.unity.jobs": "0.2.4-preview.11"
+    "com.unity.entities": "0.14.0-preview.18"
   },
-  "description": "The package provides tools to work with 2D content in a DOTS environment.",
+  "description": "2D Entities is a package that provides tools to work with 2D content in Project Tiny.",
+  "upmCi": {
+    "footprint": "7816da3a2e4167a1d5832c88166b30e59f6410b4"
+  },
   "repository": {
-    "footprint": "4d75c883dda961682c86b3e6dc7a6fa328514641",
-    "type": "git",
     "url": "https://github.cds.internal.unity3d.com/unity/2d.git",
-    "revision": "b8d8fd083f9ab1a16f174abc1e3c3b5c9d936fba"
+    "type": "git",
+    "revision": "5008eb7682724a27fc9d62a299884cc170521540"
   }
 }

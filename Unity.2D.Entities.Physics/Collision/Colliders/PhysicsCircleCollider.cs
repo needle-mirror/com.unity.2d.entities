@@ -30,10 +30,10 @@ namespace Unity.U2D.Entities.Physics
         internal void Validate()
         {
             if (math.any(!math.isfinite(m_Center)))
-                throw new ArgumentException("Cannot specify Infinite/NaN.", "Center");
+                SafetyChecks.ThrowArgumentException("Cannot specify Infinite/NaN.", "Center");
 
             if (!math.isfinite(m_Radius) || m_Radius < 0.0f)
-                throw new ArgumentException("Cannot specify less than 0 or Infinite/NaN.", "Radius");
+                SafetyChecks.ThrowArgumentException("Cannot specify less than 0 or Infinite/NaN.", "Radius");
         }
     }
 

@@ -222,7 +222,7 @@ namespace Unity.U2D.Entities.Physics
                     return false;
             }
 
-            PhysicsAssert.IsTrue(0f <= lowerFraction && lowerFraction <= fraction);
+            SafetyChecks.IsTrue(0f <= lowerFraction && lowerFraction <= fraction);
 
             if (index >= 0)
             {
@@ -372,7 +372,8 @@ namespace Unity.U2D.Entities.Physics
                     }
 
                 default:
-                    throw new NotImplementedException();
+                    SafetyChecks.ThrowNotImplementedException();
+                    return default;
             }
 
             if (hadHit && fraction < collector.MaxFraction)
