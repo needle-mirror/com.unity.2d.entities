@@ -14,7 +14,7 @@ using Hash128 = Unity.Entities.Hash128;
 
 namespace Unity.U2D.Conversion
 {
-    [ConverterVersion("2d", 1)]
+    [ConverterVersion("2d", 3)]
     [UpdateInGroup(typeof(GameObjectConversionGroup))]
     [WorldSystemFilter(WorldSystemFilterFlags.HybridGameObjectConversion)]
     internal class SpriteProxyConversion : GameObjectConversionSystem
@@ -50,9 +50,9 @@ namespace Unity.U2D.Conversion
         }
     }
 
-    [ConverterVersion("2d", 1)]
+    [ConverterVersion("2d", 3)]
     [UpdateInGroup(typeof(GameObjectDeclareReferencedObjectsGroup))]
-    [WorldSystemFilter(WorldSystemFilterFlags.DotsRuntimeGameObjectConversion)]
+    [WorldSystemFilter(WorldSystemFilterFlags.HybridGameObjectConversion)]
     internal class PackAtlasSystem : GameObjectConversionSystem
     {
         protected override void OnUpdate()
@@ -61,8 +61,9 @@ namespace Unity.U2D.Conversion
         }
     }
     
-    [ConverterVersion("2d", 1)]
+    [ConverterVersion("2d", 3)]
     [UpdateInGroup(typeof(GameObjectDeclareReferencedObjectsGroup))]
+    [WorldSystemFilter(WorldSystemFilterFlags.HybridGameObjectConversion)]
     internal class SpriteAssetDeclareTexture : GameObjectConversionSystem
     {
         protected override void OnUpdate()
@@ -132,7 +133,9 @@ namespace Unity.U2D.Conversion
         }
     }
 
-    [ConverterVersion("2d", 2)]
+    [ConverterVersion("2d", 3)]
+    [UpdateInGroup(typeof(GameObjectConversionGroup))]
+    [WorldSystemFilter(WorldSystemFilterFlags.HybridGameObjectConversion)]
     internal class SpriteAssetConversion : GameObjectConversionSystem
     {
         internal struct ConversionInfo

@@ -2,17 +2,17 @@
   "displayName": "2D Entities",
   "name": "com.unity.2d.entities",
   "unity": "2020.1",
-  "version": "0.29.0-preview.3",
+  "version": "0.31.0-preview.3",
   "dependencies": {
-    "com.unity.entities": "0.14.0-preview.18"
+    "com.unity.entities": "0.16.0-preview.21"
   },
   "description": "2D Entities is a package that provides tools to work with 2D content in Project Tiny.",
   "upmCi": {
-    "footprint": "7816da3a2e4167a1d5832c88166b30e59f6410b4"
+    "footprint": "2ed1f56a2cecd03308780661ce29d0c0ac9041dd"
   },
   "repository": {
     "url": "https://github.cds.internal.unity3d.com/unity/2d.git",
     "type": "git",
-    "revision": "5008eb7682724a27fc9d62a299884cc170521540"
+    "revision": "c75111a4af0cdb1e642bf6cec47bd92699247405"
   }
 }

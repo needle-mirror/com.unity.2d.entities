@@ -11,12 +11,12 @@ namespace Unity.U2D.Entities
         /// <summary>
         /// Position of the vertex.
         /// </summary>
-        /// <value>-</value>> 
+        /// <value>-</value>
         public float3 Position;
         /// <summary>
         /// UV coordinate of the vertex.
         /// </summary>
-        /// <value>-</value>>
+        /// <value>-</value>
         public float2 TexCoord0;
     }
     
@@ -28,17 +28,17 @@ namespace Unity.U2D.Entities
         /// <summary>
         /// Array holding all vertex data of the mesh.
         /// </summary>
-        /// <value>-</value>> 
+        /// <value>-</value>
         public BlobArray<SpriteVertex> Vertices;
         /// <summary>
         /// Array holding all index data of the mesh.
         /// </summary>
-        /// <value>-</value>> 
+        /// <value>-</value>
         public BlobArray<ushort> Indices;
         /// <summary>
         /// Mesh bounds.
         /// </summary>
-        /// <value>-</value>> 
+        /// <value>-</value>
         public AABB Bounds;
     }
 
@@ -50,12 +50,12 @@ namespace Unity.U2D.Entities
         /// <summary>
         /// Reference to the Sprite's mesh.
         /// </summary>
-        /// <value>-</value>> 
+        /// <value>-</value>
         public BlobAssetReference<SpriteMesh> Mesh;
         /// <summary>
         /// Link to the entity holding Texture data.
         /// </summary>
-        /// <value>-</value>>
+        /// <value>-</value>
         public Entity Texture;
     }
 
@@ -67,7 +67,7 @@ namespace Unity.U2D.Entities
         /// <summary>
         /// Link to the entity holding Texture data.
         /// </summary>
-        /// <value>-</value>> 
+        /// <value>-</value>
         public Entity Texture;
     }
 
@@ -79,7 +79,7 @@ namespace Unity.U2D.Entities
         /// <summary>
         /// Reference to the Sprite's mesh.
         /// </summary>
-        /// <value>-</value>> 
+        /// <value>-</value>
         public BlobAssetReference<SpriteMesh> Value;
     }
 
@@ -96,7 +96,7 @@ namespace Unity.U2D.Entities
         /// <summary>
         /// Link to the entity holding atlas data.
         /// </summary>
-        /// <value>-</value>> 
+        /// <value>-</value>
         public Entity Atlas;
     }
 
@@ -105,6 +105,11 @@ namespace Unity.U2D.Entities
     /// </summary> 
     public struct Renderer2D : IComponentData
     {
+        /// <summary>
+        /// The Layer the Renderer is in. Layers can be used for selective rendering from the camera.
+        /// </summary>
+        /// <value>The Layer needs to be within the range of [0...31].</value>
+        public int RenderingLayer;        
         /// <summary>
         ///  The Sorting Layer that the Renderer is set to, which determines its priority in the render queue. 
         /// </summary>
@@ -122,7 +127,7 @@ namespace Unity.U2D.Entities
         /// <summary>
         /// Local bounds of the Renderer.
         /// </summary>
-        /// <value>-</value>> 
+        /// <value>-</value>
         public AABB Bounds;
     }
 }

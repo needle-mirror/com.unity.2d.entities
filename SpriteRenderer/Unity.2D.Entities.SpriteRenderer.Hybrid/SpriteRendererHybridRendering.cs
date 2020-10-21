@@ -71,6 +71,7 @@ namespace Unity.U2D.Entities
                     Transform = localToWorld.Value,
                     Bounds = renderer2D.Bounds,
 
+                    Layer = renderer2D.RenderingLayer,
                     SortingLayer = renderer2D.SortingLayer,
                     SortingOrder = renderer2D.OrderInLayer,
 #if UNITY_EDITOR

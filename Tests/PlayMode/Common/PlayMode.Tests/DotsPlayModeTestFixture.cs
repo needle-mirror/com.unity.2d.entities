@@ -1,7 +1,5 @@
-#if !UNITY_DOTSRUNTIME
-
-using System.Collections;
 using NUnit.Framework;
+using Unity.Collections;
 using Unity.Core;
 using Unity.Entities;
 using UnityEngine;
@@ -11,11 +9,16 @@ public class DotsPlayModeTestFixture
     protected static World World;
     protected static EntityManager EntityManager => World.EntityManager;
 
-    private TimeData m_TimeData;
+    TimeData m_TimeData;
+    NativeLeakDetectionMode OldLeakMode;
     
     [SetUp]
     public virtual void Setup()
     {
+        // Ensure we have full stack traces when running tests.
+        OldLeakMode = NativeLeakDetection.Mode;
+        NativeLeakDetection.Mode = NativeLeakDetectionMode.EnabledWithStackTrace;
+        
         if (World != null) 
             return;
         
@@ -26,6 +29,9 @@ public class DotsPlayModeTestFixture
     [TearDown]
     public virtual void TearDown()
     {
+        // Restore the old leak mode.
+        NativeLeakDetection.Mode = OldLeakMode;
+        
         if (World == null)
             return;
         
@@ -33,18 +39,17 @@ public class DotsPlayModeTestFixture
         World = null;
     }    
     
-    protected IEnumerator MainLoop(int count = 1)
+    protected void MainLoop(int count = 1)
     {
         var timeData = StepWallRealtimeFrame(0.1);
         for (var c = 0; c < count; ++c)
         {
             EntityManager.World.SetTime(timeData);
             EntityManager.World.Update();
-            yield return new WaitForFixedUpdate();
         }
     }
     
-    private TimeData StepWallRealtimeFrame(double deltaTimeDouble)
+    TimeData StepWallRealtimeFrame(double deltaTimeDouble)
     {
         var frameDeltaTime = (float)deltaTimeDouble;
 
@@ -67,5 +72,3 @@ public class DotsPlayModeTestFixture
         return d > -eps && d < eps;
     }
 }
-
-#endif //!UNITY_DOTSRUNTIME

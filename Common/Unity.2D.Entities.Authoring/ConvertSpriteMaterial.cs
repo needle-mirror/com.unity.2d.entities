@@ -2,7 +2,7 @@ using Unity.Entities;
 
 namespace Unity.U2D.Entities
 {
-    [ConverterVersion("2d", 1)]
+    [ConverterVersion("2d", 3)]
     [UpdateInGroup(typeof(GameObjectConversionGroup))]
     [WorldSystemFilter(WorldSystemFilterFlags.HybridGameObjectConversion)]
     internal class MaterialProxyConversion : GameObjectConversionSystem

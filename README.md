@@ -7,10 +7,9 @@
 
 ## Dependencies
 
-[![](https://badges.cds.internal.unity3d.com/packages/com.unity.2d.entities/dependencies-badge.svg?branch=master)](https://badges.cds.internal.unity3d.com/packages/com.unity.2d.entities/dependencies-info?branch=master)
+[![](https://badges.cds.internal.unity3d.com/packages/com.unity.2d.entities/dependencies-badge.svg?branch=dots/master)](https://badges.cds.internal.unity3d.com/packages/com.unity.2d.entities/dependencies-info?branch=dots/master)
 
 ## About 2D Entities
 The 2D Entities package provides tools to work with 2D content in a DOTS environment. The package contains the following:
 - 2D authoring systems
 - 2D Rendering pipeline for DOTS
-- 2D Physics for DOTS
