@@ -8,7 +8,7 @@ namespace Unity.U2D.Entities
     [UnityEngine.ExecuteAlways]
     [AlwaysSynchronizeSystem]
     [UpdateInGroup(typeof(PresentationSystemGroup))]
-    internal class SpriteRendererHybridRendering : SystemBase
+    internal partial class SpriteRendererHybridRendering : SystemBase
     {
         private const int k_ShaderChannelMaskVertex = 1 << (int) UnityEngine.Rendering.VertexAttribute.Position;
         private const int k_ShaderChannelMaskTexCoord0 = 1 << (int) UnityEngine.Rendering.VertexAttribute.TexCoord0;

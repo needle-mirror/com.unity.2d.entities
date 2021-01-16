@@ -8,7 +8,7 @@ namespace Unity.U2D.Entities
     
     [UnityEngine.ExecuteAlways]
     [UpdateInGroup(typeof(PresentationSystemGroup))]
-    internal class SpriteAtlasSystem : SystemBase
+    internal partial class SpriteAtlasSystem : SystemBase
     {
         private SpriteAtlasBarrier m_Barrier;
 
